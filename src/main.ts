@@ -1,22 +1,51 @@
-import express, { Request, Response } from 'express';
+import cluster, { Worker } from 'cluster';
+import os from 'os';
 
-const PORT_OPTION = '--port';
+if (cluster.isPrimary) {
+	console.log(`main ${process.pid}`);
 
-if (process.argv.length !== 4) {
-	throw Error('В качестве аргумента должен быть передан порт через опцию --port');
+	const cpuCount = os.cpus().length;
+	console.log(`Clustering to ${cpuCount} CPUs`);
+	for (let i = 0; i < cpuCount; ++i) {
+		cluster.fork();
+	}
+
+	cluster.on('exit', (worker: any, code: number) => {
+		if (code !== 0 && !worker.process.killed) {
+			console.log('Worker crashed. Starting new Worker Process');
+			cluster.fork();
+		}
+	});
+
+	process.on('SIGUSR2', () => {
+		console.log('Restarting workers...');
+		const workers = Object.keys(cluster.workers || {});
+
+		function restartWorker(workerNumber: number): void {
+			if (workerNumber >= workers.length) {
+				return;
+			}
+
+			const worker = cluster.workers?.[workers[workerNumber]];
+			if (!worker) {
+				console.log('error worker');
+				return;
+			}
+
+			console.log(`Stopping worker: ${worker.process.pid}`);
+			worker.disconnect();
+
+			worker.on('exit', () => {
+				const newWorker = cluster.fork();
+				newWorker.on('listening', () => {
+					restartWorker(workerNumber + 1);
+				});
+			});
+		}
+
+		restartWorker(0);
+	});
+} else {
+	console.log(`Worker process with PID: ${cluster.worker?.process.pid} started`);
+	require('./app');
 }
-
-if (process.argv[2] !== PORT_OPTION) {
-	throw Error(`Обязательно должна быть указана опция ${PORT_OPTION}`);
-}
-
-const app = express();
-const port = process.argv[3];
-
-app.get('/', (req: Request, res: Response) => {
-	res.send(`Hello World from ${port}!`);
-});
-
-app.listen(port, () => {
-	console.log(`Example app listening on port ${port}`);
-});
