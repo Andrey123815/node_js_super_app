@@ -1,6 +1,6 @@
-array=(8081 8082 8083 8084)
+APP_SERVER_PORTS=(8081 8082 8083 8084)
 
-for var in ${array[*]}
+for serverPort in ${APP_SERVER_PORTS[*]}
 do
-kill "$(lsof -t -sTCP:LISTEN -i:"$var")"
+kill "$(lsof -t -sTCP:LISTEN -i:"$serverPort")"
 done

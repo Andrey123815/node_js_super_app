@@ -1,14 +1,13 @@
 #!/bin/bash
 
 tsc
-#node dist/main.js --port 8081 &
-#node dist/main.js --port 8082 &
-#node dist/main.js --port 8083 &
-#node dist/main.js --port 8084
+APP_SERVER_PORTS=(8081 8082 8083 8084)
 
-array=(8081 8082 8083 8084)
+arrayLength="${#APP_SERVER_PORTS[@]}"
 
-for var in ${array[*]}
+for serverPort in ${APP_SERVER_PORTS[*]:0:arrayLength-1}
 do
-  node dist/main.js --port "$var" &
+  node dist/main.js --port "$serverPort" &
 done
+
+node dist/main.js --port "${APP_SERVER_PORTS[arrayLength-1]}"
