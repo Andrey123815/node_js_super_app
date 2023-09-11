@@ -1,15 +1,17 @@
 {
-	"name": "dashboard-api",
+	"name": "nodejs-super-app",
 	"version": "1.0.0",
-	"description": "API для учебного проекта 4-NodeJS",
+	"description": "Super App NodeJS",
 	"main": "index.js",
 	"type": "commonjs",
 	"scripts": {
 		"start": "node ./dist/main.js",
 		"dev": "nodemon",
 		"dev:inspect": "nodemon -e ts,json --exec node --inspect=localhost:9222 -r ts-node/register src/main.ts",
-		"lint": "eslint ./src/**",
-		"lint:fix": "eslint ./src/** --fix",
+		"start:app": "bash start_servers.sh",
+		"stop:app": "sudo bash kill_servers.sh",
+		"highload": "bash highload.sh",
+		"lint": "eslint ./src/** --fix",
 		"build": "tsc"
 	},
 	"author": "Andrey Diakonov",
