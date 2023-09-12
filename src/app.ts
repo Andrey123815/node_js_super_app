@@ -14,7 +14,7 @@ const app = express();
 const port = process.argv[3];
 
 app.get('/', (req: Request, res: Response) => {
-	res.send(`Hello World from ${port}!`);
+	res.send(`Hello World from server at ${port}!`);
 });
 
 app.listen(port, () => {

@@ -1,7 +1,15 @@
-import cluster, { Worker } from 'cluster';
+import cluster from 'cluster';
 import os from 'os';
+import net from 'net';
+import { multiplexChannels } from './utils/mux-demux-utils';
+import { initLoggerMicroService } from './microservices/logger';
 
 if (cluster.isPrimary) {
+	initLoggerMicroService();
+	const socket = new net.Socket();
+	socket.connect(10000, () => {
+		multiplexChannels([process.stdout, process.stderr], socket);
+	});
 	console.log(`main ${process.pid}`);
 
 	const cpuCount = os.cpus().length;
