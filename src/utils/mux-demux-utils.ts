@@ -1,7 +1,7 @@
 export function multiplexChannels(sources: any[], destination: any) {
-	let totalChannels = sources.length;
+	let activeSourceChannelsCount = sources.length;
 
-	for (let i = 0; i < totalChannels; ++i) {
+	for (let i = 0; i < activeSourceChannelsCount; ++i) {
 		sources[i]
 			.on('readable', () => {
 				let chunk: any;
@@ -17,7 +17,7 @@ export function multiplexChannels(sources: any[], destination: any) {
 				}
 			})
 			.on('end', () => {
-				if (--totalChannels === 0) {
+				if (--activeSourceChannelsCount === 0) {
 					destination.end();
 				}
 			});
