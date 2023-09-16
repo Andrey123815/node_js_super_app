@@ -1,4 +1,11 @@
 import express, { Request, Response } from 'express';
+import { Worker } from 'worker_threads';
+
+interface IQueryParam {
+	word: string;
+}
+
+const CHAT_MESSAGES_HISTORY: string[] = [];
 
 const PORT_OPTION = '--port';
 
@@ -15,6 +22,18 @@ const port = process.argv[3];
 
 app.get('/', (req: Request, res: Response) => {
 	res.send(`Hello World from server at ${port}!`);
+});
+
+app.get('/crypto-word', (req: Request<{}, {}, {}, IQueryParam>, res: Response) => {
+	const worker = new Worker('./src/microservices/cryptoWorker.ts', {
+		workerData: {
+			word: req.query.word,
+		},
+	});
+
+	worker.once('message', (array: Array<string>) => {
+		res.send(array);
+	});
 });
 
 app.listen(port, () => {

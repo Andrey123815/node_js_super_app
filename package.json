@@ -5,14 +5,13 @@
 	"main": "index.js",
 	"type": "commonjs",
 	"scripts": {
-		"start": "node ./dist/main.js --port 8081",
-		"start-servers": "bash start_servers.sh",
 		"dev": "nodemon",
+		"build": "tsc",
 		"dev:inspect": "nodemon -e ts,json --exec node --inspect=localhost:9222 -r ts-node/register src/main.ts",
+		"start-servers": "bash start_servers.sh",
 		"stop-servers": "bash kill_servers.sh",
 		"highload": "bash highload.sh",
-		"lint": "eslint ./src/** --fix",
-		"build": "tsc"
+		"lint": "eslint ./src/** --fix"
 	},
 	"author": "Andrey Diakonov",
 	"license": "ISC",
@@ -24,6 +23,7 @@
 	},
 	"devDependencies": {
 		"@types/express": "^4.17.13",
+		"@types/node": "^20.6.2",
 		"@typescript-eslint/eslint-plugin": "^5.0.0",
 		"@typescript-eslint/parser": "^5.0.0",
 		"eslint": "^8.0.1",
