@@ -1,6 +1,6 @@
 import net from 'net';
 import fs from 'fs';
-import { demultiplexChannel } from '../utils/mux-demux-utils';
+import { demultiplexChannel } from '../../utils/mux-demux-utils';
 
 export function initLoggerMicroService(): void {
 	net

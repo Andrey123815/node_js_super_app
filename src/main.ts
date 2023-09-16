@@ -2,7 +2,7 @@ import cluster from 'cluster';
 import os from 'os';
 import net from 'net';
 import { multiplexChannels } from './utils/mux-demux-utils';
-import { initLoggerMicroService } from './microservices/logger';
+import { initLoggerMicroService } from './microservices/logger/logger';
 
 if (cluster.isPrimary) {
 	initLoggerMicroService();

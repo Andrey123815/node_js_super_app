@@ -25,7 +25,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.get('/crypto-word', (req: Request<{}, {}, {}, IQueryParam>, res: Response) => {
-	const worker = new Worker('./src/microservices/cryptoWorker.ts', {
+	const worker = new Worker('./src/workers/cryptoWorker.ts', {
 		workerData: {
 			word: req.query.word,
 		},
