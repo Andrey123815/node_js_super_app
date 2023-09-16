@@ -24,7 +24,7 @@ amqp
 			channel.publish('chat', '', Buffer.from(req.query.message));
 		});
 		app.listen(port, () => {
-			console.log(`Example app listening on port ${port}`);
+			console.log(`Chat microservice listening on port ${port}`);
 		});
 	})
 	.catch((err) => console.log(err));

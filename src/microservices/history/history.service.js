@@ -30,7 +30,7 @@ amqp
 			res.send(`Chat history: ${CHAT_HISTORY.join(', ')}`);
 		});
 		app.listen(port, () => {
-			console.log(`Example app listening on port ${port}`);
+			console.log(`History microservice listening on port ${port}`);
 		});
 	})
 	.catch((err) => console.log(err));

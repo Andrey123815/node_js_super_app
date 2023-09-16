@@ -10,6 +10,9 @@
 		"dev:inspect": "nodemon -e ts,json --exec node --inspect=localhost:9222 -r ts-node/register src/main.ts",
 		"start-servers": "bash start_servers.sh",
 		"stop-servers": "bash kill_servers.sh",
+    "start-message-broker": "docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management",
+    "start-chat-miscroservice": "node src/microservices/chat/chat.service.js 8099",
+    "start-history-miscroservice": "node src/microservices/history/history.service.js 8098",
 		"highload": "bash highload.sh",
 		"lint": "eslint ./src/** --fix"
 	},

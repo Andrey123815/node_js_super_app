@@ -5,8 +5,6 @@ interface IQueryParam {
 	word: string;
 }
 
-const CHAT_MESSAGES_HISTORY: string[] = [];
-
 const PORT_OPTION = '--port';
 
 if (process.argv.length !== 4) {
